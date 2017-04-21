@@ -1,3 +1,5 @@
+// 引入scss
+import './style.scss';
 
 import Tool from './tool';
 

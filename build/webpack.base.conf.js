@@ -1,6 +1,7 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -20,20 +21,32 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     alias: {
-      //'vue$': 'vue/dist/vue.esm.js',
       //'@': resolve('src'),
     }
   },
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
+        test: /\.(js)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
         include: [resolve('src'), resolve('test')],
         options: {
           formatter: require('eslint-friendly-formatter')
         }
+      },
+      {
+        test: /\.scss/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
+        // use: ExtractTextPlugin.extract({
+        //   fallback: 'style-loader',
+        //   use: ['css-loader', 'sass-loader', 'postcss-loader'],
+        // })
       },
       {
         test: /\.js$/,
