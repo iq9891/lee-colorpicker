@@ -1,5 +1,6 @@
 // 引入scss
 import './style.scss';
+import './components/drag';
 
 import Tool from './tool';
 
@@ -16,7 +17,8 @@ const _oDefultParams = {
   parent: document.body,
   submit: 1,
   submitText: 'OK',
-  height: 152,
+  height: 150,
+  angleHeight: 12 / 2,
 };
 
 const _colpick = () => {
@@ -25,12 +27,28 @@ const _colpick = () => {
     init: (opt) => {
       opt = $.extend({}, _oDefultParams, opt || {});
 
-      const _$colorpick = $('#lee-colorpick');
-      const _$color = _$colorpick.find('#lee-colorpick_color');
-      console.log('opt', opt);
-      _$color.on('mousedown.lee', () => {
-        console.log(111);
+      // const _$colorpick = $('#lee-colorpick');
+      // const _$color = _$colorpick.find('#lee-colorpick_color');
+
+      $('#leeInner').drag({
+        drag: '#leeInner',
+        limit: false,
+        move: (moveEvent, x, y) => {
+          console.log(x, y);
+        },
       });
+      $('#leeHueMove').drag({
+        drag: '#leeHueMove',
+        limit: true,
+        direction: 'col',
+        move: (moveEvent, oEleOffset, oMouseOffset) => {
+          const _iMin = Math.min(opt.height, (oEleOffset.top + opt.angleHeight));
+          const _iH = parseInt((360 * (opt.height - Math.max(0, _iMin))) / opt.height, 10);
+          console.log(oMouseOffset, oEleOffset.top + opt.angleHeight, _iH, parseInt(_iH, 10));
+          // console.log(opt.height);
+        },
+      });
+      console.log('opt', opt);
     }, // end init
   };
 };
