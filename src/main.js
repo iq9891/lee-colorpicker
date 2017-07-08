@@ -1,5 +1,6 @@
 
 import Tool from './tool';
+import './drag';
 
 const $ = window.$;
 
@@ -23,11 +24,15 @@ const _colpick = () => {
     init: (opt) => {
       opt = $.extend({}, _oDefultParams, opt || {});
 
-      const _$colorpick = $('#lee-colorpick');
-      const _$color = _$colorpick.find('#lee-colorpick_color');
+      // const _$colorpick = $('#lee-colorpick');
+      // const _$color = _$colorpick.find('#lee-colorpick_color');
       console.log('opt', opt);
-      _$color.on('mousedown.lee', () => {
-        console.log(111);
+      $('#lee-inner').drag({
+        drag: '#lee-inner',
+        limit: true,
+        move: (moveEvent, x, y) => {
+          console.log(x, y);
+        },
       });
     }, // end init
   };
